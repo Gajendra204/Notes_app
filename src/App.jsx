@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import NoteContainer from "./Components/NoteContainer";
 import Sidebar from "./Components/Sidebar";
 
+
 import "./App.css";
 
 function App() {
