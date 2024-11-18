@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
-
-
-import NoteContainer from "./Components/NoteContainer";
-import Sidebar from "./Components/Sidebar";
-
-
-import "./App.css";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./Components/HomePage";
+import NotePage from "./Components/NotePage";
 
 function App() {
   const [notes, setNotes] = useState(
@@ -13,35 +9,25 @@ function App() {
   );
 
   const addNote = (color) => {
-    const tempNotes = [...notes];
-
-    tempNotes.push({
+    const newNote = {
       id: Date.now() + "" + Math.floor(Math.random() * 78),
       text: "",
       time: Date.now(),
       color,
-    });
-    setNotes(tempNotes);
+    };
+    setNotes((prevNotes) => [...prevNotes, newNote]);
   };
 
   const deleteNote = (id) => {
-    const tempNotes = [...notes];
-
-    const index = tempNotes.findIndex((item) => item.id === id);
-    if (index < 0) return;
-
-    tempNotes.splice(index, 1);
-    setNotes(tempNotes);
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   };
 
-  const updateText = (text, id) => {
-    const tempNotes = [...notes];
-
-    const index = tempNotes.findIndex((item) => item.id === id);
-    if (index < 0) return;
-
-    tempNotes[index].text = text;
-    setNotes(tempNotes);
+  const updateText = (text, id, title = "") => {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === id ? { ...note, text, title } : note
+      )
+    );
   };
 
   useEffect(() => {
@@ -49,14 +35,31 @@ function App() {
   }, [notes]);
 
   return (
-    <div className="App">
-      <Sidebar addNote={addNote} />
-      <NoteContainer
-        notes={notes}
-        deleteNote={deleteNote}
-        updateText={updateText}
-      />
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HomePage
+              notes={notes}
+              addNote={addNote}
+              deleteNote={deleteNote}
+              updateText={updateText}
+            />
+          }
+        />
+        <Route
+          path="/note/:id"
+          element={
+            <NotePage
+              notes={notes}
+              updateText={updateText}
+              deleteNote={deleteNote}
+            />
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

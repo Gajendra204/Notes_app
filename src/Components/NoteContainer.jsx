@@ -23,11 +23,11 @@ const NoteContainer = (props) => {
   });
 
   return (
-    <div className="flex flex-col h-screen p-4">
-      <h2 className="mb-4 text-2xl font-semibold">Notes</h2>
+    <div className="flex flex-col h-screen p-3 bg-gray-800">
+      <h2 className="mb-4 text-2xl font-semibold text-white ">Notes</h2>
 
       {/* Static Search and Filter Section */}
-      <div className="sticky top-0 z-10 flex items-center justify-between p-4 mb-4 bg-white shadow-sm">
+      <div className="sticky top-0 z-10 flex items-center justify-between p-4 mb-4 bg-white bg-gray-800 shadow-sm ">
         {/* Search Bar */}
         <div className="relative w-1/2">
           <input
@@ -63,7 +63,7 @@ const NoteContainer = (props) => {
           notes.map((item) => (
             <div
               key={item.id}
-              className="transition-transform duration-300 hover:scale-105"
+              className="transition-transform duration-300 transform hover:scale-105"
             >
               <Note
                 note={item}
